@@ -1,71 +1,86 @@
 ## Purpose of the project
-This project will provide you a step-by-step guide clean a dataset of wine reviews from WineEnthusiast(https://www.winemag.com/?s=&drink_type=wine). Included is a csv file that lists the wine's country, designation, price, province, and variety. There are formatting errors in the province column where California is sometimes printed out in full as `California` and sometimes abbreviated as `CA`. This is a common problem with datasets where the standard of data input is not enforced. Your task is standardize the province column to replace all the entries of `CA` with `California`, then return a clean csv file.
+This project will walk you step-by-step to parse a dataset and interpret it. The data is provided by [WineEnthusiast](https://www.winemag.com/?s=&drink_type=wine). Included is a csv file that lists the wine's `country`, `designation`, `price`, `province`, `and variety`. There are formatting errors in the `province` column where California is sometimes printed out in full as `California`, and sometimes abbreviated as `CA`. This is a common problem with datasets where there is no standard practice of data input, or the dataset is modified by different people over time. Your task is to **count how many lines where the province is listed as `CA`.**
 
 
 ## Verify locally
 To test this module locally:
 * Open up a terminal at the project root
 * Run command `pytest`
-* Everything should be green!
+* This will list all the failing tests.
 
 
-## Task 1 Print the Data: Open the `wine_list.csv` file as a text file with Python's `open()` function. Then, pass the file to the csv library's `reader` function. Print each line of the file.
+## Task 1: Open the File
 
-A sample input file named `wine_list.csv` is provided as part of the project.
-We need to open it to get a [file object](https://docs.python.org/3.7/glossary.html#term-file-object) using the [open() method](https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files).
+Open the `wine_list.csv` file as a text file with Python's `open()` function.
 
 This process looks something like this
 ```
-with expression as csv_file:
-    csv_reader = csv.reader(csv_file, delimiter=',')
-    # Write a for loop here, iterating through each line of csv_reader and print each line
+with open(<my_file>) as csv_file:
+    ## Do stuff with csv_file here
 ```
 
-In above structure, use `open()` in the `expression`, and name the variable as `infile`.
+## Task 2: Read `csv_file` with the `csv` library `reader` function
 
+Currently we can't do much with the `csv_file` as it is. We need to utilize Python's `csv` module.
 
-## Task 2: Loop through each line in `infile`
-With the `infile` variable, we can loop through it to get each line in the `input.txt` file.
+At the top of your file import the `csv` library like this.
 
-A simple way is just loop through the `infile` file object.
-The basic structure of a loop in Python is as such:
 ```
-for variable in iterable:
-    body
+import csv
 ```
 
-Add a line of `for`-loop where the varible is named `line` and the iterable is `infile`.
+Now we have access to all of the library's functionality. In this project we will be using the `reader` function.
 
-The following tasks will fill in the `body` part of the loop
-
-
-## Task 3: Separate line into list
-Note that the fields in each line is separated by a space (`' '`) in `input.txt`.
-For example, the first line is:
+This `reader` function will let us iterate through each line of our data. It will look something like this:
 ```
-answer 42
+with open(<my_file>) as csv_file:
+  csv_reader = csv.reader(csv_file, delimiter=',')
+  ## csv_reader is what we can iterate over
 ```
 
-Using the [str.split()](https://docs.python.org/3.7/library/stdtypes.html#str.split) function, split the `line` into a variable named `splitted`, with separator of a space.
+Note the argument `delimiter=','`. CSV file format stands for "comma separated values". This means that commas separate the data in this particular data set, and we are telling the `reader` function that a `,` indicates the beginning or end of a piece of data.
 
+## Task 3: Print each line
+Now that we've read the csv file, let's write a `for` loop to print each line of our data. Iterate over `csv_reader` and use the `print()` function to print each line.
 
-## Task 4: Get the last element in the splitted list
-Once we get the `splitted` list, it's time to get the last element in it.
+It will look something like this:
+```
+for variable in csv_reader:
+  print(variable)
+```
 
-To get the element at a given `index` in a `list`, use the following syntax: `list`[`index`], then assign it to a variable named `last`.
+In your terminal you'll notice that each line is represented by a [list](https://www.tutorialspoint.com/python/python_lists.htm). The first line of the file are the headers, and the province is the last entry of each list.
 
-The `index` for the last element is `-1`.
+If you look carefully, you also might notice there are some wines are from `California` but some are listed from `CA`.
 
-## Task 5: Cast `last` into an int
-Since we know for sure the last element is an integer, it's good practice to cast it to an integer (e.g. for comparison with another integer).
+## Task 4: Initialize a counter to keep track of how many times we see `CA`
 
-The build-in function [`int()`](https://docs.python.org/3.7/library/functions.html#int) can be used for such casting.
+Before the for loop, create a variable `counter` and set it to zero like this:
 
-Store the casting result into a variable named `value`.
+```
+counter = 0
+for variable in csv_reader:
+```
 
+## Task 5: Write an `if` statement.
 
-## Task 6: Print out the value
-Finally, we get the integer of each line in the input file.
-It's time to print it out.
+We only want to increment our counter if the last entry of the list is equal to `CA`. Inside the `for` loop, write an `if` statement to check if the last element of each row is equal to `CA`.
 
-Print the result `value` using the [`print()`](https://docs.python.org/3.7/library/functions.html#print) build-in function.
+The `index` for the last element of a [list](https://www.tutorialspoint.com/python/python_lists.htm) is `-1`. Your `if` statement will look something like this:
+
+```
+if variable[-1] == 'CA':
+```
+
+## Task 6: Increment the counter inside the `if` block.
+
+Within the `if` block, increment the `counter` by `1`. A shorthand way to increment a variable is with `+= 1`. It will look something like this:
+
+```
+counter += 1
+```
+The `+= 1` is the equivalent of `counter = counter + 1`
+
+## Task 7: Print the total number of `CA`'s in the dataset.
+
+Print the resulting `counter` after the `for` loop like this `print(counter)`. If you've done it right, you should be printing `5`!

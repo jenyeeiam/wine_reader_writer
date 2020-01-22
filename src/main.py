@@ -1,17 +1,16 @@
+import csv
 
-# read line from input.txt
-with open('wine_list.csv') as infile:
+# Open the wine_list
+with open('wine_list.csv') as file:
+    csv_reader = csv.reader(file, delimiter=',')
 
+    # Initialize a counter
+    counter = 0
     # loop through each line
-    for line in infile:
-        # separate line into list
-        splitted = line.split(' ')
+    for line in csv_reader:
+        # print out the line
+        print(line)
+        if line[-1] == 'CA':
+            counter += 1
 
-        # find last str of list
-        last = splitted[-1]
-
-        # cast above into int
-        value = int(last)
-
-        # print out the value
-        print(value)
+    print("There are {} times the CA is shown".format(counter))
