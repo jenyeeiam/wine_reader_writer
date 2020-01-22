@@ -93,3 +93,18 @@ def get_for_loops(source, return_type='string', include_type=False):
         return []
 
     return loops
+
+def get_ifs(source, return_type='string', include_type=False):
+    ifs = []
+
+    def visit_If(node):
+        ifs.append(convert_ast(node, return_type, include_type))
+
+    node_iter = ast.NodeVisitor()
+    node_iter.visit_If = visit_If
+    try:
+        node_iter.visit(ast.parse(inspect.getsource(source)))
+    except OSError:
+        return []
+
+    return ifs

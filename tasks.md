@@ -40,16 +40,16 @@ with open(<my_file>) as csv_file:
 
 Note the argument `delimiter=','`. CSV file format stands for "comma separated values". This means that commas separate the data in this particular data set, and we are telling the `reader` function that a `,` indicates the beginning or end of a piece of data.
 
-## Task 3: Print each line
-Now that we've read the csv file, let's write a `for` loop to print each line of our data. Iterate over `csv_reader` and use the `print()` function to print each line.
+## Task 3: Print each row of the csv file.
+Now that we've read the csv file, let's write a `for` loop to print each row of our data. Iterate over `csv_reader` and use the `print()` function to print each row.
 
 It will look something like this:
 ```
-for variable in csv_reader:
-  print(variable)
+for row in csv_reader:
+  print(row)
 ```
 
-In your terminal you'll notice that each line is represented by a [list](https://www.tutorialspoint.com/python/python_lists.htm). The first line of the file are the headers, and the province is the last entry of each list.
+In your terminal you'll notice that each row is represented by a [list](https://www.tutorialspoint.com/python/python_lists.htm). The first row of the file are the headers, and the province is the last entry of each list.
 
 If you look carefully, you also might notice there are some wines are from `California` but some are listed from `CA`.
 
@@ -59,7 +59,7 @@ Before the for loop, create a variable `counter` and set it to zero like this:
 
 ```
 counter = 0
-for variable in csv_reader:
+for row in csv_reader:
 ```
 
 ## Task 5: Write an `if` statement.
@@ -69,7 +69,7 @@ We only want to increment our counter if the last entry of the list is equal to 
 The `index` for the last element of a [list](https://www.tutorialspoint.com/python/python_lists.htm) is `-1`. Your `if` statement will look something like this:
 
 ```
-if variable[-1] == 'CA':
+if row[-1] == 'CA':
 ```
 
 ## Task 6: Increment the counter inside the `if` block.

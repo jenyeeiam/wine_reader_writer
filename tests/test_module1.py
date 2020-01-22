@@ -2,57 +2,53 @@ import pytest
 
 from src import main
 
-from .utils import get_assignments, get_calls, get_for_loops
+from .utils import get_assignments, get_calls, get_for_loops, get_ifs
 
-
+# Task 1
 def test_get_call_with_open_module1():
     calls = get_calls(main)
-    message = 'Are you calling `open()` and pass in the `input.txt` file?'
-    assert 'open:input.txt' in calls, message
+    message = 'Are you calling `open()` and pass in the `wine_list.csv` file?'
+    assert 'open:wine_list.csv' in calls, message
 
+# Task 2
+def test_import_csv():
+    assert 'csv' in dir(main), 'Did you import the csv library?';
+# Task 2
+def test_csv_reader_is_used():
+    calls = get_calls(main)
+    message = "Did you call csv.reader? Also make sure you declared the delimiter with delimiter=','"
+    assert 'csv:reader:file:delimiter:,' in calls, message
 
-def test_get_loop_for_each_line():
+# Task 3
+def test_get_loop_for_each_row():
     loops = get_for_loops(main, 'dict')
-    message = 'Do you have a `for` loop that loops through the `infile`?'
+    message = 'Do you have a `for` loop that loops through the `csv_reader`?'
     assert len(loops) != 0, message
 
-    target_id = loops[0]['target:id']
-    iter_id = loops[0]['iter:id']
-    assert target_id == 'line', 'Do you have a variable `line` in the loop?'
-    assert iter_id == 'infile', 'Do you loop through the `infile`?'
-
-
-def test_split_line_with_space():
+# Task 3
+def test_prints_each_row():
     calls = get_calls(main)
-    message = "Are you calling `split()` of the line variable and pass in a space ' ' as the separator?"
-    assert 'line:split: ' in calls, message
+    message = 'Do you print each row within the for loop?'
+    assert 'print:row' in calls, message
 
-
-def test_get_last_element_in_splitted():
+# Task 4
+def test_counter_is_assigned():
     assignments = get_assignments(main, return_type='list')
-    message = "Do you get the last element of `splitted` and assign it to `last`?"
+    counter_var = assignments[-1]
+    assert counter_var[0] == 'counter', 'Do you initialize a variable named counter?'
+    assert int(counter_var[1]) == 0, 'Do you initialize the counter to 0?'
 
-    # XXX: should it be -1, instead of 1 ?
-    assert ['last', 'splitted', '1'] in assignments, message
+# Task 5
+def test_if_is_used():
+    ifs = get_ifs(main)
+    assert 'row:1:CA:counter:1' in ifs, "Did you write an if block that checks if the last entry of the row is equal to 'CA'"
 
-    import inspect
-    inspected = inspect.getsource(main)
-    assert 'last = splitted[-1]' in inspected, message
-
-
-def test_cast_last_element_to_int():
+# Task 7
+def test_print_the_counter():
     calls = get_calls(main)
-    message = "Are you calling `int` to cast `last`?"
+    message = 'Do you print the counter at the end of the for loop?'
+    assert 'print:counter' in calls, message
 
-    assert 'int:last' in calls, message
-
-    assignments = get_assignments(main)
-    message = "Do you store the casted result into `value`"
-    assert 'value:int:last' in assignments, message
-
-
-def test_print_result_value():
-    calls = get_calls(main)
-    message = "Do you `print` the result `value`?"
-
-    assert 'print:value' in calls, message
+# Task 7
+def test_the_counter_is_5():
+    assert main.counter == 5

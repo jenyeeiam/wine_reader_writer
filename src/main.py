@@ -7,10 +7,10 @@ with open('wine_list.csv') as file:
     # Initialize a counter
     counter = 0
     # loop through each line
-    for line in csv_reader:
+    for row in csv_reader:
         # print out the line
-        print(line)
-        if line[-1] == 'CA':
+        print(row)
+        if row[-1] == 'CA':
             counter += 1
-
-    print("There are {} times the CA is shown".format(counter))
+    # Print the counter
+    print(counter)
