@@ -51,7 +51,7 @@ for row in csv_reader:
 
 In your terminal you'll notice that each row is represented by a [list](https://www.tutorialspoint.com/python/python_lists.htm). The first row of the file are the headers, and the province is the last entry of each list.
 
-If you look carefully, you also might notice there are some wines are from `California` but some are listed from `CA`.
+If you look carefully, you also might notice some wines are from `California` but some are listed from `CA`.
 
 ## Task 4: Initialize a counter to keep track of how many times we see `CA`
 
