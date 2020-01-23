@@ -13,6 +13,7 @@ def test_get_call_with_open_module1():
 # Task 2
 def test_import_csv():
     assert 'csv' in dir(main), 'Did you import the csv library?';
+
 # Task 2
 def test_csv_reader_is_used():
     calls = get_calls(main)
@@ -51,4 +52,4 @@ def test_print_the_counter():
 
 # Task 7
 def test_the_counter_is_5():
-    assert main.counter == 5
+    assert main.counter == 5, "Looks like your answer isn't correct, make sure you didn't edit the wine_list.csv file!"
